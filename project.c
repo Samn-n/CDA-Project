@@ -79,7 +79,14 @@ int rw_memory(unsigned ALUresult,unsigned data2,char MemWrite,char MemRead,unsig
 /* 10 Points */
 void write_register(unsigned r2,unsigned r3,unsigned memdata,unsigned ALUresult,char RegWrite,char RegDst,char MemtoReg,unsigned *Reg)
 {
+    //We bring data from memory since RegWrite and MemtoReg are both 1 and assign this to r2
+    if (RegWrite == 1 && MemtoReg == 1) 
+        Reg[r2] = memdata;
 
+    //We bring data from ALUresult since MemtoReg is not 1 and we assign this to r3
+    if (RegWrite == 1 && MemtoReg == 0)
+        Reg[r3] = ALUresult;
+    
 }
 
 /* PC update */
