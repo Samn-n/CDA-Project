@@ -1,5 +1,3 @@
-//***************TEST*********************//
-
 #include "spimcore.h"
 
 
@@ -60,7 +58,20 @@ int ALU_operations(unsigned data1,unsigned data2,unsigned extended_value,unsigne
 /* 10 Points */
 int rw_memory(unsigned ALUresult,unsigned data2,char MemWrite,char MemRead,unsigned *memdata,unsigned *Mem)
 {
+    //Halt condition: Memory is out of range
+    if (ALUresult > 0xFFFF)
+        return 1;
+    //Halt condition: Address not word-aligned
+    if (ALUresult % 4 != 0)
+        return 1;
 
+    if (MemWrite == 1) 
+        Mem[ALUresult >> 2] = data2;    //This writes data2 to memory
+
+    if (MemRead == 1)
+        *memdata = Mem[ALUresult >> 2];  //Reads data from memory
+
+    return 0;
 }
 
 
